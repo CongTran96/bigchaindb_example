@@ -38,7 +38,7 @@ make sure you installed [Node](https://nodejs.org/en/). Now, build the dependenc
 
 Then run the web.
 ```
-    npm run
+    npm start
 ```
 
 The server has in `https://localhost:3000`. Have enjoy !!!
