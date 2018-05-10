@@ -1,0 +1,29 @@
+#users {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 900px;
+    overflow: scroll;
+    margin-top: 20px;
+}
+
+#users td, #users th {
+    border: 1px solid #ddd;
+    padding: 12px;
+    max-width: 175px;
+}
+
+#users tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#users tr:nth-child(odd) {
+    background-color: white;
+}
+
+#users th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
