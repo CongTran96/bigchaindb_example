@@ -2,18 +2,20 @@ const driver = require('bigchaindb-driver')
 
 const API_PATH = 'http://localhost:9984/api/v1/'
 
+const conn = new driver.Connection(API_PATH)
+
 function makeUserKeyPair() {
     return new driver.Ed25519Keypair()
 }
 
 
-export async function createAssets(data, meta_data, ownerAsset) {
+export async function createAssets(student, meta_data, ownerAsset) {
     // Construct a transaction payloa
     let transaction = {};
     const tx = driver.Transaction.makeCreateTransaction(
     // Define the asset to store, in this example it is the current temperature
     // (in Celsius) for the city of Berlin.
-    data,
+    {student,},
 
     // Metadata contains information about the transaction itself
     // (can be `null` if not needed)
@@ -29,8 +31,6 @@ export async function createAssets(data, meta_data, ownerAsset) {
     // Sign the transaction with private keys
     const txSigned = driver.Transaction.signTransaction(tx, ownerAsset.privateKey)
 
-    const conn = new driver.Connection(API_PATH)
-
     await conn.postTransactionCommit(txSigned)
         .then(retrievedTx => {
             transaction = retrievedTx
@@ -42,8 +42,6 @@ export async function createAssets(data, meta_data, ownerAsset) {
 export async function transferAssets(txid, meta_data, beforeOwner, newOwner) {
     // decleare transaction id
     let transaction = {};
-
-    const conn = new driver.Connection(API_PATH)
 
     const creation_tx = await conn.getTransaction(txid)
    
@@ -73,6 +71,11 @@ export async function transferAssets(txid, meta_data, beforeOwner, newOwner) {
 export async function getTransaction(txid) {
     const conn = new driver.Connection(API_PATH)
     return await conn.getTransaction(txid)
+}
+
+export async function getTransactionBaseStudentID(studentID) {
+    const conn = new driver.Connection(API_PATH)
+    return await conn.searchAssets(studentID)
 }
 
 export {makeUserKeyPair}

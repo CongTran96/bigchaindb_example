@@ -42,8 +42,10 @@ class Demo extends React.Component {
                     <DropDown onChange={this.handleChangeForm}/>
                     <Notification message={this.state.notifi} />
                     <FormController formSelected={this.state.formSelected} onSubmit={this.handleChangeNotification}/>
-                    <Button name="create keypair" onClick={this.handleCreateKeyPair} />
-                    <ListUser users={this.state.keypair}/>
+                    <div className="keypair-area">
+                        <Button name="create keypair" onClick={this.handleCreateKeyPair} />
+                        <ListUser users={this.state.keypair}/>
+                    </div>
                 </div>
             </div>
         )

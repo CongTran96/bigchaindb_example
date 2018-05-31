@@ -2,9 +2,6 @@ import React from 'react'
 import '../styles/_listuser.css'
 
 class ListUser extends React.Component {
-    constructor(props) {
-        super(props)
-    }
 
     render() {
 

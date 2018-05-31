@@ -1,12 +1,12 @@
 import React from 'react'
-import '../styles/_form.css'
+import Form from './form'
 import {transferAssets} from '../bdchain'
 
 class CustomForm extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {ownTxid: '', newTxid: '', beforeOwner: {publicKey: '', privateKey: ''}, newOwner: {publicKey: '', privateKey: ''}}
+        this.state = {ownTxid: '', beforeOwner: {publicKey: '', privateKey: ''}, newOwner: {publicKey: '', privateKey: ''}}
         this.handleSubmit = this.handleSubmit.bind(this)
 
         this.handleChangeTx = this.handleChangeTx.bind(this);
@@ -37,7 +37,7 @@ class CustomForm extends React.Component {
     async handleSubmit(event) {
        const [txid, beforeOwner, newOwner] = [this.state.ownTxid, this.state.beforeOwner, this.state.newOwner]
 
-       const transaction = await transferAssets(txid, '', beforeOwner, newOwner)
+       const transaction = await transferAssets(txid, {something: ''}, beforeOwner, newOwner)
        this.props.onSubmit(`your transaction id: ${transaction.id} was succeed`)
 
         // event.preventDefault()
@@ -50,17 +50,13 @@ class CustomForm extends React.Component {
 
     render() {
         return (
-            <form id="msform">
-                <fieldset>
-                    <h2 className="fs-title">{this.props.caption}</h2>
-                    {this.renderTransaction()}
-                    <input type="text" value={this.state.ownTxid} onChange={this.handleChangeTx} placeholder="Transaction ID" />
-                    <input type="text" value={this.state.beforeOwner.publicKey} onChange={this.handleChangeBeforeOwnerPublicKey} placeholder="Public key of before owner" />
-                    <input type="text" value={this.state.beforeOwner.privateKey} onChange={this.handleChangeBeforeOwnerPrivateKey} placeholder="Private key of before owner" />
-                    <input type="text" value={this.state.newOwner.publicKey} onChange={this.handleChangeNewOwnerPublicKey} placeholder="Public key of new owner" />
-                    <input className="action-button" type="button" value="Submit" onClick={this.handleSubmit}/>
-                </fieldset>
-            </form>
+            <Form caption={this.props.caption} onSubmit={this.handleSubmit}>
+                {this.renderTransaction()}
+                <input type="text" value={this.state.ownTxid} onChange={this.handleChangeTx} placeholder="Transaction ID" />
+                <input type="text" value={this.state.beforeOwner.publicKey} onChange={this.handleChangeBeforeOwnerPublicKey} placeholder="Public key of before owner" />
+                <input type="text" value={this.state.beforeOwner.privateKey} onChange={this.handleChangeBeforeOwnerPrivateKey} placeholder="Private key of before owner" />
+                <input type="text" value={this.state.newOwner.publicKey} onChange={this.handleChangeNewOwnerPublicKey} placeholder="Public key of new owner" />
+            </Form>
         );
     }
 }

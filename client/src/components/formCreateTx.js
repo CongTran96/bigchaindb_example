@@ -1,12 +1,12 @@
 import React from 'react'
-import '../styles/_form.css'
 import {createAssets} from '../bdchain'
+import Form from './form'
 
 class CustomForm extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {asset: {message: ''}, meta_data: {message:''}, ownerAsset: {publicKey: '', privateKey: '', transactionID: ''}}
+        this.state = {asset: {message: ''}, meta_data: {message:''}, ownerAsset: {publicKey: '', privateKey: ''}}
 
         // bind for event function
         this.handleChangeMessage        = this.handleChangeMessage.bind(this)
@@ -16,9 +16,8 @@ class CustomForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    renderTransaction() {
-        if (this.state.transactionID) 
-            return <h3 className="fs-subtitle">{`your transaction id: ${this.state.transactionID}`}</h3>
+    componentDidMount() {
+        this.inputMetadata.focus()
     }
 
     handleChangeMessage(event) {
@@ -40,27 +39,32 @@ class CustomForm extends React.Component {
     }
 
     async handleSubmit(event) {
-        const [asset, meta_data, ownerAsset] = [this.state.asset, this.state.meta_data, this.state.ownerAsset]
+        var [asset, meta_data, ownerAsset] = [this.state.asset, this.state.meta_data, this.state.ownerAsset]
+
+        asset = {
+            name: "Cong Tran Minh",
+            id: "14520100",
+            born_on: "Nghe An",
+            major_in: "Software Engineer",
+            ranking: "Excellent",
+            mode_of_study: "full-time",
+            serial_number: "0384928439",
+            reference_number: "",
+        }
 
         const transaction = await createAssets(asset, meta_data, ownerAsset)
         
         this.props.onSubmit(`your transaction id: ${transaction.id} was succeed`)
-        // event.preventDefault()
     }
 
     render() {
         return (
-            <form id="msform">
-                <fieldset>
-                    <h2 className="fs-title">{this.props.caption}</h2>
-                    {this.renderTransaction()}
-                    <input type="text" value={this.state.asset.message} onChange={this.handleChangeMessage} placeholder="enter your first data transaction here..." />
-                    <input type="text" value={this.state.meta_data.message} onChange={this.handleChangeMetadata} placeholder="enter meta data (can change after)" />
-                    <input type="text" value={this.state.ownerAsset.publicKey} onChange={this.handleChangeOwnPublicKey} placeholder="Public key of owner" />
-                    <input type="text" value={this.state.ownerAsset.privateKey} onChange={this.handleChangeOwnPrivateKey} placeholder="Private key of owner" />
-                    <input className="action-button" type="button" value="Submit" onClick={this.handleSubmit} />
-                </fieldset>
-            </form>
+            <Form caption={this.props.caption} onSubmit={this.handleSubmit}>
+                <input type="text" ref={input => this.inputTransaction = input} value={this.state.asset.message} onChange={this.handleChangeMessage} placeholder="enter your first data transaction here..." />
+                <input type="text" ref={input => this.inputMetadata = input} value={this.state.meta_data.message} onChange={this.handleChangeMetadata} placeholder="enter meta data (can change after)" />
+                <input type="text" value={this.state.ownerAsset.publicKey} onChange={this.handleChangeOwnPublicKey} placeholder="Public key of owner" />
+                <input type="text" value={this.state.ownerAsset.privateKey} onChange={this.handleChangeOwnPrivateKey} placeholder="Private key of owner" />
+            </Form>
         );
     }
 }

@@ -1,30 +1,31 @@
 import React from 'react'
 import Form from './form'
-import {getTransaction} from '../bdchain'
+import {getTransactionBaseStudentID} from '../bdchain'
 
 class CustomForm extends React.Component {
     constructor(props) {
         super(props)
+
         this.state = {
-            transactionID: '',
-
+            studentID: ""
         }
-
+        
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChange(event) {
-        this.setState({transactionID: event.target.value})
+        console.log(event.target.value)
+        this.setState({studentID: event.target.value})
     }
 
-    async handleSubmit(event) {
+    handleSubmit(event) {
         // change code here
-        const txid = this.state.transactionID
+        const studentID = this.state.studentID
 
-        const transaction = await getTransaction(txid)
+        const transaction = getTransactionBaseStudentID(studentID)
 
-        console.log(transaction)
+        console.log(transaction.then(asset => console.log(asset[0].data.student.name)))
         this.props.onSubmit(`Turn on console debug to see the transaction`)
 
         // event.preventDefault()
@@ -33,7 +34,7 @@ class CustomForm extends React.Component {
     render() {
         return (
             <Form caption={this.props.caption} onSubmit={this.handleSubmit}>
-                <input type="text" value={this.state.transactionID} onChange={this.handleChange} placeholder="Transaction ID" />
+                <input type="text" value={this.state.studentID} onChange={this.handleChange} placeholder="StudentID" />
             </Form>
         );
     }
