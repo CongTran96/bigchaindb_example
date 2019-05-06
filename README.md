@@ -33,7 +33,8 @@ make sure you installed [Node](https://nodejs.org/en/). Now, build the dependenc
 
 ```
     cd bigchaindb_example/client
-    npm build
+    npm install
+    npm run build
 ```
 
 Then run the web.
@@ -42,3 +43,5 @@ Then run the web.
 ```
 
 The server has in `https://localhost:3000`. Have enjoy !!!
+
+This project development by purpose demo how transaction work in bigchaindb. Make sure you know bigchaindb by visit [bigchaindb getstrated](https://www.bigchaindb.com/developers/getstarted/) before using this project.
